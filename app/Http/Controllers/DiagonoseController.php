@@ -45,11 +45,14 @@ class DiagonoseController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified diagonose by using the id.
      */
-    public function show(Diagonose $diagonose)
+    public function show(String $id)
     {
-        //
+        $diagonose = Diagonose::query()->find($id);
+        return $diagonose;
+
+
     }
 
     /**
@@ -63,16 +66,27 @@ class DiagonoseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDiagonoseRequest $request, Diagonose $diagonose)
+    public function update(UpdateDiagonoseRequest $request, String $id)
     {
-        //
+        //get the data from the request body
+        $validated = $request->validate([
+            "title" => "required",
+        ]);
+        //find a diagonose by the id
+        $diagonose=Diagonose::query()->find($id);
+
+        //update the data
+        $diagonose->query()->update($validated);
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Diagonose $diagonose)
+    public function destroy(String $id)
     {
-        //
+        $diagonose=Diagonose::query()->find($id);
+        $diagonose->query()->delete();
     }
 }

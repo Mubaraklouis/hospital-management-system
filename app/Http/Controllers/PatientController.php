@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
-use GuzzleHttp\Psr7\Request;
 use Inertia\Inertia;
+
+
 
 class PatientController extends Controller
 {
@@ -15,20 +16,21 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = Patient::query()->get();
-        return Inertia::render('patients',[
-            "patients"=>$patients
+        $patients = Patient::query()->latest()->filter()->get();
+        return Inertia::render('patients/index', [
+            "patients" => $patients,
+
+
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
 
-
-
+        return Inertia::render('patients/create');
     }
 
     /**
@@ -38,14 +40,14 @@ class PatientController extends Controller
     {
         $validated = $request->validate(
             [
-                "name"=>"required",
-                "phone"=>"required",
-                "age"=>"required",
-                "gender"=>"required"
+                "name" => "required",
+                "phone" => "required",
+                "age" => "required",
+                "gender" => "required"
             ]
         );
         Patient::query()->create($validated);
-
+        return redirect()->route('patients.index');
     }
 
     /**
@@ -53,7 +55,10 @@ class PatientController extends Controller
      */
     public function show(String $id)
     {
-      return  Patient::query()->find($id);
+        $patient = Patient::query()->find($id);
+        return Inertia::render('patients/edite', [
+            "patient" => $patient
+        ]);
     }
 
     /**
@@ -71,17 +76,16 @@ class PatientController extends Controller
     {
         $validated = $request->validate(
             [
-                "name"=>"required",
-                "phone"=>"required",
-                "age"=>"required",
-                "gender"=>"required"
+                "name" => "required",
+                "phone" => "required",
+                "age" => "required",
+                "gender" => "required"
             ]
-            );
+        );
 
-           $patient= Patient::query()->find($id);
-           $patient->query()->update($validated);
-
-
+        $patient = Patient::query()->find($id);
+        $patient->update($validated);
+        return redirect()->route('patients.index');
     }
 
     /**
@@ -89,8 +93,7 @@ class PatientController extends Controller
      */
     public function destroy(String $id)
     {
-        $patient= Patient::query()->find($id);
-        $patient->query()->delete();
-
+        $patient = Patient::query()->find($id);
+        $patient->delete();
     }
 }

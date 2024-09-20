@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -25,10 +24,29 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function(){
-    Route::get('/patients',[PatientController::class,'index'])->name('patients');
-    // Route::post('/patients',[PatientController::class,'create']);
 
+
+/*
+ * All the routes with auth middleware
+ * All with a specific group
+ */
+
+ //these are routes for patient crude operation
+
+Route::middleware('auth')->prefix('patients')->group(function(){
+    require  __DIR__ . '/patients/patients.php';
+
+});
+
+//these are the routes for reception functionality
+
+Route::middleware('auth')->prefix('receptant')->group(function(){
+    require  __DIR__ . '/receptant/receptant.php';
+});
+//these are the routes for doctor functionalities
+
+Route::middleware('auth')->prefix('doctor')->group(function(){
+    require  __DIR__ . '/doctor/doctor.php';
 });
 
 require __DIR__.'/auth.php';
