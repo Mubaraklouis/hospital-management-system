@@ -16,8 +16,7 @@ class DiagonoseController extends Controller
     {
         $diagonoses = Diagonose::all();
 
-//        return Inertia::render('Diagonoses/index', compact('diagonoses'));
-
+        return Inertia::render('doctor/diagonoses/diagonoseIndex', compact('diagonoses'));
     }
 
     /**
@@ -25,7 +24,8 @@ class DiagonoseController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('doctor/diagonoses/createDiagonose');
+
     }
 
     /**
@@ -41,7 +41,7 @@ class DiagonoseController extends Controller
         //store the diagonose in the database
         Diagonose::query()->create($validated);
 
-
+        return redirect()->route('diagonoses.index');
     }
 
     /**
@@ -51,8 +51,6 @@ class DiagonoseController extends Controller
     {
         $diagonose = Diagonose::query()->find($id);
         return $diagonose;
-
-
     }
 
     /**
@@ -73,12 +71,10 @@ class DiagonoseController extends Controller
             "title" => "required",
         ]);
         //find a diagonose by the id
-        $diagonose=Diagonose::query()->find($id);
+        $diagonose = Diagonose::query()->find($id);
 
         //update the data
         $diagonose->query()->update($validated);
-
-
     }
 
     /**
@@ -86,7 +82,22 @@ class DiagonoseController extends Controller
      */
     public function destroy(String $id)
     {
-        $diagonose=Diagonose::query()->find($id);
-        $diagonose->query()->delete();
+
+
+
+        // $patient_id =$request['patient_id'];
+        // $patient= Patient::find($patient_id);
+        // $t=$patient->diagonoses();
+        // $t->attach($diagonose_id);
+
+
+
+        $diagonose = Diagonose::query()->find($id);
+
+        $patient = $diagonose->patients();
+        $patient->detach([1,6,11]);
+
+        $diagonose->delete();
+        return redirect()->route('diagonoses.index');
     }
 }

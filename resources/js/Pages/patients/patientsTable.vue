@@ -60,6 +60,12 @@ function deletePatient(id){
     </div>
 </template>
 
-<style scoped>
+<style >
+.table-secondary {
+    background-color: #cecbf7;
+}
+.table-primary {
+    background-color: #b086f3;
+}
 
 </style>

@@ -11,7 +11,6 @@ defineProps(
 
 <template>
 
-
     <main-layout>
         <div>
             <patients-table :patients="patients"/>

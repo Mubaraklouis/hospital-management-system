@@ -1,6 +1,11 @@
 <script setup >
 import { Link, usePage ,useForm} from "@inertiajs/vue3";
 
+import { computed } from "vue";
+
+
+const diagonoses = computed(() => page.props.diagonoses)
+
 </script>
 
 <template>

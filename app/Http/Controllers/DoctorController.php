@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Doctor;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
+use App\Models\Diagonose;
 use App\Models\Patient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class DoctorController extends Controller
@@ -17,17 +17,31 @@ class DoctorController extends Controller
      */
     public function searchPatient(Request $request)
     {
-        $patient =   Patient::where('name', 'like', '%' . request('search') . '%')->with(['diagonose']);
+        $diagonoses= Diagonose::all();
+        $patient =   Patient::where('name', 'like', '%' . request('search') . '%')->with(['diagonoses'])->get();
 
-
+        // dd($patient);
+        return inertia(
+            'doctor/patientDetails',
+            [
+                'patient' => $patient,
+                'diagonoses'=>$diagonoses
+            ]
+        );
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function AssignTest(String $diagonose_id,Request $request)
     {
-        //
+        //find the patient
+        $patient_id =$request['patient_id'];
+        $patient= Patient::find($patient_id);
+        $t=$patient->diagonoses();
+        $t->attach($diagonose_id);
+
+
     }
 
     /**
@@ -43,7 +57,7 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-    return Inertia::render('doctor/home');
+        return Inertia::render('doctor/home');
     }
 
     /**

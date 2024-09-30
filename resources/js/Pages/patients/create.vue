@@ -22,8 +22,6 @@
 
 
 
-
-
                 <label class="text-sm font-extrabold" for="Product Name">Age</label>
 
                 <input v-model="form.age" class="p-1 text-xs text-gray-500" type="text" placeholder="enter age" />

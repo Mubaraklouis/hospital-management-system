@@ -1,5 +1,13 @@
 <script setup >
 import { Link, usePage ,useForm} from "@inertiajs/vue3";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import Dropdown from '@/Components/Dropdown.vue';
+
+import { computed } from "vue";
+const page = usePage();
+
+
+const diagonoses = computed(() => page.props.diagonoses)
 
 const form = useForm({
    search:''
@@ -85,7 +93,7 @@ const search =()=>{
                 <!-- the h4 is for the main title -->
                 <div>
                     <h4 class="pt-6 pl-20 font-extrabold uppercase text-md">
-                   Patients
+
                    <!-- <Link :href="route('patients.index')">Patients</Link> -->
                     </h4>
                 </div>
@@ -97,8 +105,8 @@ const search =()=>{
                             <div class="indicator-bar"></div>
                         </li>
                         <li class="secondary-text">Users</li>
-                        <li class="secondary-text">  <Link>Patients</Link>   </li>
-                        <li class="secondary-text">Diagonoses</li>
+                        <li class="secondary-text">  <Link :href="route('patients.index')">Patients</Link>   </li>
+                        <li class="secondary-text"><Link :href="route('diagonoses.index')">Diagonoses</Link></li>
                     </ul>
                 </div>
 
@@ -122,21 +130,42 @@ const search =()=>{
                         </div>
                     </div>
                     <!-- workinf on the category -->
-                    <div
-                        class="grid items-center justify-center grid-cols-3 gap-2 pl-4 calender-input"
-                    >
-                        <div class="flex col-span-2 gap-2">
-                            <img class="w-6 h-6" src="/icons/object-group.png" alt="" />
-                            <div>
-                                <p class="text-xs font-bold text-gray-500">Category</p>
-                                <h4 class="text-xs font-extrabold">All</h4>
-                            </div>
-                        </div>
 
-                        <div>
-                            <img class="w-4 h-4" src="/icons/angle-small-down.png" alt="" />
+                    <div class="grid items-center justify-center grid-cols-3 gap-2 pl-4 cursor-pointer calender-input">
+                        <!-- Settings Dropdown -->
+                        <div class="relative ml-1">
+                            <Dropdown align="center" width="48">
+                                <br>
+                                <template #trigger>
+                                    <span class="inline-flex rounded-md ">
+                                        <button type="button"
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out border border-transparent rounded-md hover:text-gray-700 focus:outline-none">
+                                            Diagonoses
+
+                                            <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </template>
+                                <br>
+
+                                <template #content>
+                                    <DropdownLink name="search" :href="route('doctor.assign',diagonose.id)" v-for="diagonose in diagonoses" :key="diagonose.id">
+                                        {{ diagonose.title }}
+                                    </DropdownLink>
+
+
+
+
+                                </template>
+                            </Dropdown>
                         </div>
                     </div>
+
 
                     <!-- code for the search button -->
 
@@ -159,4 +188,9 @@ const search =()=>{
         </section>
     </div>
 </template>
-<style></style>
+<style>
+.test-dropdown{
+    width: 200px;
+}
+
+</style>

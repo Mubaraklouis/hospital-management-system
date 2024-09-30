@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('diagonose_patient', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('diagonose_id');
-            $table->unsignedBigInteger('patient_id');
-            $table->foreign('diagonose_id')->references('id')->on('diagonoses');
-            $table->foreign('patient_id')->references('id')->on('patients');
+            $table->unsignedBigInteger('diagonose_id')->nullable();
+            $table->unsignedBigInteger('patient_id')->nullable();
+            $table->foreign('diagonose_id')->references('id')->on('diagonoses')->nullOnDelete();
+            $table->foreign('patient_id')->references('id')->on('patients')->nullOnDelete();
             $table->timestamps();
         });
     }
