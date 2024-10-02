@@ -46,7 +46,7 @@ const search =()=>{
                         <ul class="flex flex-col gap-5 text-xs font-extrabold text-bold">
                             <li class="flex items-center gap-y-6 gap-x-2">
                                 <div><img class="w-4 h-4" src="/icons/home.png" alt="" /></div>
-                                Dashboard
+                              <Link :href="route('dashboard')">Dashboard</Link>
                             </li>
                             <li class="flex items-center gap-y-6 gap-x-2">
                                 <div>
@@ -54,17 +54,7 @@ const search =()=>{
                                 </div>
                                 <Link :href="route('doctor.home')"> Doctor</Link>
                             </li>
-                            <li class="flex items-center gap-y-6 gap-x-2">
-                                <div>
-                                    <img class="w-4 h-4" src="/icons/observation.png" alt="" />
-                                </div>
-                    Lab Technician
-                            </li>
 
-                            <li class="flex items-center gap-y-6 gap-x-2">
-                                <div><img class="w-4 h-4" src="/icons/user.png" alt="" /></div>
-                                Users
-                            </li>
 
                         </ul>
                     </div>
@@ -89,8 +79,13 @@ const search =()=>{
             </nav>
 
             <!-- main page markup -->
+
+
             <div class="col-span-4">
                 <!-- the h4 is for the main title -->
+
+
+                
                 <div>
                     <h4 class="pt-6 pl-20 font-extrabold uppercase text-md">
 
@@ -101,10 +96,10 @@ const search =()=>{
                 <div class="w-full pl-20 mt-10 mini-nav-border">
                     <ul class="flex gap-4 text-sm font-extrabold text-bold">
                         <li>
-                            Dashboard
+                          <Link :href="route('dashboard')">Dashboard</Link>
                             <div class="indicator-bar"></div>
                         </li>
-                        <li class="secondary-text">Users</li>
+
                         <li class="secondary-text">  <Link :href="route('patients.index')">Patients</Link>   </li>
                         <li class="secondary-text"><Link :href="route('diagonoses.index')">Diagonoses</Link></li>
                     </ul>

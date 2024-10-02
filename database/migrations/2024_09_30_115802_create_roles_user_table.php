@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles_users', function (Blueprint $table) {
+        Schema::create('roles_user', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('role_id')->nullable();
+            $table->unsignedBigInteger('roles_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('role_id')->references('id')->on('roles')->nullOnDelete();
+            $table->foreign('roles_id')->references('id')->on('roles')->nullOnDelete();
             $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles_users');
+        Schema::dropIfExists('roles_user');
     }
 };

@@ -1,9 +1,11 @@
 <template>
     <div>
 
-        <receptantLayout>
+ 
 
-            <form @submit.prevent="submitForm()" class="grid grid-cols-1 mb-5 in-product-form" action="">
+
+<mainLayout>
+    <form @submit.prevent="submitForm()" class="grid grid-cols-1 mb-5 in-product-form" action="">
                 <label class="text-sm font-extrabold" for="name"> Name</label>
 
                 <input v-model="form.name" class="p-1 text-xs text-gray-500" type="text" placeholder="patient's name" />
@@ -32,7 +34,9 @@
             </form>
 
 
-        </receptantLayout>
+
+
+</mainLayout>
 
 
 
@@ -46,6 +50,8 @@ import { usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
 import { defineProps } from "vue";
 import receptantLayout from "@/Layouts/mainLayout/receptantLayout.vue"
+
+import mainLayout from "@/Layouts/mainLayout/mainLayout.vue";
 
 
 

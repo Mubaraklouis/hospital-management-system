@@ -2,16 +2,13 @@
 import { Link, usePage ,useForm} from "@inertiajs/vue3";
 
 import ReceptantLayout from "@/Layouts/mainLayout/receptantLayout.vue";
+import mainLayout from "@/Layouts/mainLayout/mainLayout.vue";
 </script>
 
 <template>
 
-    <receptant-layout>
-
-
-
-
-<div class="w-full max-w-sm border border-gray-200 rounded-lg card-profile mt-10">
+    <mainLayout>
+        <div class="w-full max-w-sm mt-10 border border-gray-200 rounded-lg card-profile">
     <div class="flex justify-end px-4 pt-4">
         <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500  rounded-lg text-sm p-1.5" type="button">
             <span class="sr-only">Open dropdown</span>
@@ -35,7 +32,11 @@ import ReceptantLayout from "@/Layouts/mainLayout/receptantLayout.vue";
 
 
 
-    </receptant-layout>
+
+
+
+    </mainLayout>
+
 
 </template>
 

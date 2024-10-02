@@ -6,6 +6,7 @@ use App\Models\Patient;
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
 use Inertia\Inertia;
+use App\Policies\PatientPolicy;
 
 
 
@@ -14,51 +15,85 @@ class PatientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Patient $patient, PatientPolicy $patientPolicy)
     {
-        $patients = Patient::query()->latest()->filter()->get();
-        return Inertia::render('patients/index', [
-            "patients" => $patients,
 
 
-        ]);
+        if ($patientPolicy->view($patient)) {
+            $patients = Patient::query()->latest()->filter()->get();
+            return Inertia::render('patients/index', [
+                "patients" => $patients,
+
+
+            ]);
+        } else {
+            //abort the request
+            abort(403, 'unauthorize request');
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Patient $patient, PatientPolicy $patientPolicy)
     {
 
-        return Inertia::render('patients/create');
+        if ($patientPolicy->view($patient)) {
+
+            return Inertia::render('patients/create');
+        } else {
+            abort(403, 'unauthorize request');
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePatientRequest $request)
+    public function store(StorePatientRequest $request ,PatientPolicy $patientPolicy, Patient $patient)
     {
-        $validated = $request->validate(
-            [
-                "name" => "required",
-                "phone" => "required",
-                "age" => "required",
-                "gender" => "required"
-            ]
-        );
-        Patient::query()->create($validated);
-        return redirect()->route('patients.index');
+
+
+
+        if ($patientPolicy->view($patient)) {
+            $validated = $request->validate(
+                [
+                    "name" => "required",
+                    "phone" => "required",
+                    "age" => "required",
+                    "gender" => "required"
+                ]
+            );
+            Patient::query()->create($validated);
+            return redirect()->route('patients.index');
+        } else {
+            abort(403, 'unauthorize request');
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(String $id)
+    public function show(String $id, Patient $patient ,PatientPolicy $patientPolicy )
     {
-        $patient = Patient::query()->find($id);
-        return Inertia::render('patients/edite', [
-            "patient" => $patient
-        ]);
+
+
+        if ($patientPolicy->view($patient)) {
+
+            $patient = Patient::query()->find($id);
+            return Inertia::render('patients/edite', [
+                "patient" => $patient
+            ]);
+
+        } else {
+            //abort the request
+            abort(403, 'unauthorize request');
+            return redirect()->route('dashboard');
+        }
+
+
     }
 
     /**

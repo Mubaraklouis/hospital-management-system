@@ -2,6 +2,8 @@
 <script setup >
 import { Link, usePage ,useForm} from "@inertiajs/vue3";
 import doctorLayout from "../../../Layouts/doctorLayout.vue";
+import MainLayout from "@/Layouts/mainLayout/mainLayout.vue";
+
 defineProps({
     diagonoses:Array
 
@@ -25,7 +27,8 @@ const deleteDiagonose = (id)=>{
 <template>
 
 
-<doctorLayout>
+<MainLayout>
+
     <div>
         <Link :href="route('diagonose.create')" class="  bg-[#6200FF] font-bold rounded-md text-white p-2">Add diagonose</Link>
     </div>
@@ -63,7 +66,10 @@ const deleteDiagonose = (id)=>{
             </tbody>
         </table>
     </div>
-</doctorLayout>
+
+</MainLayout>
+
+
 
 
 </template>
