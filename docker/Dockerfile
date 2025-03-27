@@ -40,8 +40,8 @@ RUN apk add --no-cache \
 COPY docker/production/php.ini /usr/local/etc/php/conf.d/php.ini
 
 # Configure Nginx
-COPY docker/production/nginx.conf /etc/nginx/nginx.conf
-COPY docker/production/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy application files
 COPY --chown=www-data:www-data --from=php-builder /app /var/www/html
@@ -52,7 +52,7 @@ RUN chown -R www-data:www-data /var/www/html/storage
 RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
 
 # Setup entrypoint
-COPY docker/production/entrypoint.sh /usr/local/bin/
+COPY docker/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 WORKDIR /var/www/html
