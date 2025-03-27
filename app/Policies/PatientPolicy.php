@@ -4,32 +4,46 @@ namespace App\Policies;
 
 use App\Models\Patient;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class PatientPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(Patient $patients): bool
     {
-        //
+        return false;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Patient $patient): bool
+    public function view(Patient $patient): bool
     {
-        //
+        return true;
     }
+
+
+
 
     /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool
     {
-        //
+        //get the role of the authenicated user
+        $role = Auth::user()->roles[0]->title;
+
+        if ($role == "admin") {
+
+            return true;
+        } else if ($role == "recept") {
+            return true;
+        } else {
+            abort(403, "unauthorize");
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -37,7 +51,16 @@ class PatientPolicy
      */
     public function update(User $user, Patient $patient): bool
     {
-        //
+        //get the role of the authenicated user
+        $role = Auth::user()->roles[0]->title;
+
+        if ($role == "admin") {
+
+            return true;
+        } else {
+            abort(403, "unauthorize");
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -45,7 +68,16 @@ class PatientPolicy
      */
     public function delete(User $user, Patient $patient): bool
     {
-        //
+           //get the role of the authenicated user
+           $role = Auth::user()->roles[0]->title;
+
+           if ($role == "admin") {
+
+               return true;
+           } else {
+               abort(403, "unauthorize");
+               return redirect()->route('dashboard');
+           }
     }
 
     /**
@@ -53,7 +85,7 @@ class PatientPolicy
      */
     public function restore(User $user, Patient $patient): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -61,6 +93,6 @@ class PatientPolicy
      */
     public function forceDelete(User $user, Patient $patient): bool
     {
-        //
+     return false;
     }
 }
