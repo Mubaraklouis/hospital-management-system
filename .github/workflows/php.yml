@@ -1,17 +1,16 @@
-name: hospital ci/cd
+name: Hospital CI/CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 permissions:
   contents: read
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -31,17 +30,19 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
-    - name: Install javascript assests
+
+    - name: Install javascript assets
       run: npm install
 
-
+    # Fixed Docker build step
     - uses: mr-smithers-excellent/docker-build-push@v6
       name: Build & push Docker image
       with:
           image: mubaraklouis/hospitalsystem
           tags: 0.0.1
           registry: docker.io
-          dockerfile: '../../docker/8.4/Dockerfile'
+          dockerfile: "docker/8.4/Dockerfile"  # Correct relative path
+          context: .  # Explicit build context
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
