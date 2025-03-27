@@ -15,7 +15,8 @@ use Illuminate\Database\Eloquent\Model;
 class Diagonose extends Model
 {
     protected $fillable=[
-        "title"
+        "title",
+        "price"
     ];
 
     public function patients(){

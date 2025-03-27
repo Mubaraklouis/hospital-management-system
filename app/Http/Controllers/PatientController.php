@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Policies\PatientPolicy;
 
@@ -20,9 +22,9 @@ class PatientController extends Controller
 
 
         if ($patientPolicy->view($patient)) {
-            $patients = Patient::query()->latest()->filter()->get();
+            $patients = Patient::query()->latest()->filter();
             return Inertia::render('patients/index', [
-                "patients" => $patients,
+                "patients" => $patients->paginate(4),
 
 
             ]);
@@ -53,19 +55,33 @@ class PatientController extends Controller
      */
     public function store(StorePatientRequest $request ,PatientPolicy $patientPolicy, Patient $patient)
     {
+        $patient_id = uniqid();
 
 
 
         if ($patientPolicy->view($patient)) {
-            $validated = $request->validate(
+            $request->validate(
                 [
                     "name" => "required",
                     "phone" => "required",
                     "age" => "required",
-                    "gender" => "required"
+                    "gender" => "required",
+
+
                 ]
             );
-            Patient::query()->create($validated);
+
+            //the patient to save in the database
+            $p = [
+                "name"=> $request->name,
+                "phone"=> $request->phone,
+                "age"=>$request->age,
+                "gender"=>$request->gender,
+                "patient_id"=>$patient_id
+
+            ];
+
+            Patient::query()->create($p);
             return redirect()->route('patients.index');
         } else {
             abort(403, 'unauthorize request');
@@ -107,14 +123,16 @@ class PatientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePatientRequest $request, String $id)
+
+    public function update(Request $request, String $id)
     {
         $validated = $request->validate(
             [
                 "name" => "required",
                 "phone" => "required",
                 "age" => "required",
-                "gender" => "required"
+                "gender" => "required",
+
             ]
         );
 
@@ -122,6 +140,7 @@ class PatientController extends Controller
         $patient->update($validated);
         return redirect()->route('patients.index');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -131,4 +150,6 @@ class PatientController extends Controller
         $patient = Patient::query()->find($id);
         $patient->delete();
     }
+
+
 }

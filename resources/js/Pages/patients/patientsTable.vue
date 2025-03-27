@@ -30,7 +30,7 @@ function deletePatient(id){
             <thead class="text-xs text-gray-700 uppercase bg-gray-100 table-secondary">
             <tr>
                 <th scope="col" class="px-3 py-4">Name</th>
-                <th scope="col" class="px-3 py-4">Phone</th>
+                <th scope="col" class="px-3 py-4"> Patient's ID</th>
                 <th scope="col" class="px-3 py-4">Gender</th>
                 <th scope="col" class="px-3 py-4">Action</th>
             </tr>
@@ -40,12 +40,15 @@ function deletePatient(id){
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     <p>{{ patient.name }}</p>
                 </th>
-                <td class="px-6 py-4">{{ patient.phone }}</td>
+                <td class="px-6 py-4">{{ patient.patient_id }}</td>
                 <td class="px-6 py-4">{{ patient.gender }}</td>
                 <td  class="px-6 py-4">
                     <div class="flex gap-4">
                         <div class="p-2 font-medium text-white bg-red-400 rounded-md hover:underline">
                             <td  as="button" >  <Link href="#" @click="deletePatient(patient.id)"><img class="w-4 h-4 cursor-pointer" src="/icons/trash.png" alt /></Link> </td>
+                        </div>
+                        <div class="p-2 font-medium text-white bg-green-500 rounded-md hover:underline">
+                            <td  as="button" >  <a :href="route('receipt.register',patient.id)" ><img class="w-4 h-4 cursor-pointer" src="/icons/invoice.png" alt /></a> </td>
                         </div>
                         <div class="p-2 font-medium text-white bg-green-600 rounded-md hover:underline table-primary">
                             <p href="/">

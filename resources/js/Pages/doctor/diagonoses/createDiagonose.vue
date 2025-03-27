@@ -6,6 +6,9 @@
                 <form @submit.prevent="submitForm()" class="grid grid-cols-1 mb-5 in-product-form" action="">
                 <label class="text-sm font-extrabold" for="name"> Title</label>
                 <input v-model="form.title" class="p-1 text-xs text-gray-500" type="text" placeholder="Diagonose title..." />
+                <label class="text-sm font-extrabold" for="name"> Price</label>
+                <input v-model="form.price" class="p-1 text-xs text-gray-500" type="text" placeholder="price..." />
+
 
 
 
@@ -42,6 +45,7 @@ const page = usePage();
 
 const form = useForm({
     title: "",
+    price:""
 
 });
 

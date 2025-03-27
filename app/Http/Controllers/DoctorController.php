@@ -17,8 +17,9 @@ class DoctorController extends Controller
      */
     public function searchPatient(Request $request)
     {
+        $patient_id = $request->search;
         $diagonoses= Diagonose::all();
-        $patient =   Patient::where('name', 'like', '%' . request('search') . '%')->with(['diagonoses'])->get();
+        $patient =   Patient::where('patient_id', $patient_id)->with(['diagonoses'])->get();
 
         // dd($patient);
         return inertia(

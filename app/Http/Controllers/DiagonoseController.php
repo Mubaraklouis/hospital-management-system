@@ -36,6 +36,7 @@ class DiagonoseController extends Controller
         $validated = $request->validate(
             [
                 "title" => "required",
+                "price"=>"required"
             ]
         );
         //store the diagonose in the database
@@ -69,6 +70,7 @@ class DiagonoseController extends Controller
         //get the data from the request body
         $validated = $request->validate([
             "title" => "required",
+            "price" => "required"
         ]);
         //find a diagonose by the id
         $diagonose = Diagonose::query()->find($id);

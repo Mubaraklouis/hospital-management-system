@@ -11,19 +11,16 @@ const props = defineProps({
 })
 
 
+//getting the role of the login user
+const  page = usePage();
+
+const role = page.props.role[0]?.title ? page.props.role[0].title:'regular' ;
 
 
-
-const form = useForm({
-    patient_id:props.patient[0]?.id
-
-});
-
-
-
-const submitDiagonose = (diagonose_id) => {
-
-    form.post(route('doctor.assign',diagonose_id))
+const cashier = ()=>{
+    if(role === 'cashier' ){
+        return true;
+    }
 }
 
 
@@ -32,39 +29,12 @@ const submitDiagonose = (diagonose_id) => {
 <template>
 <mainLayout>
     <div v-if="patient.length >0">
+        <a v-if="role == cashier()" :href="route('receipt.cashier',patient[0].id )" class="  bg-black font-bold rounded-md text-white p-2">Print Receipt</a>
         <div class="grid items-center justify-center grid-cols-3 gap-2 pb-4 cursor-pointer ">
 
 <!-- Settings Dropdown -->
 <div class="relative ml-1">
-    <Dropdown align="center" width="48">
-        <br>
-        <template #trigger>
-            <span class="inline-flex bg-gray-200 rounded-md ">
-                <button type="button"
-                    class=" bg-[#6200FF] inline-flex  ms-center px-3 py-2 text-sm font-medium leading-4 text-white transition duration-150 ease-in-out border border-transparent rounded-md ">
-                   Assign Diagonoses
 
-                    <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </button>
-            </span>
-        </template>
-        <br>
-
-        <template #content>
-            <DropdownLink name="search" @click="submitDiagonose(diagonose.id)" v-for="diagonose in diagonoses" :key="diagonose.id">
-                {{ diagonose.title }}
-            </DropdownLink>
-
-
-
-
-        </template>
-    </Dropdown>
 </div>
 </div>
 
@@ -125,7 +95,7 @@ Diagonoses
 </dt>
 <dd class="col-span-2 mt-1 text-sm text-gray-900">
 
-<span class="p-3 font-bold" v-for="diagonose in patient[0].diagonoses" :key="diagonose.key">{{ diagonose.title }},</span>
+<span class="p-3 font-bold" v-for="diagonose in patient[0].diagonoses" :key="diagonose.key">{{ diagonose.title }}</span>
 
 </dd>
 </div>

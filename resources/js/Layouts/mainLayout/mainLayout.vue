@@ -13,6 +13,12 @@ const name = page.props.auth.user.name;
 const role = page.props.role[0]?.title ? page.props.role[0].title:'regular' ;
 
 
+
+//get the count of patients
+
+const patient_count = page.props.patient_count
+
+
 console.log(role)
 
 //check if the user is a doctor
@@ -64,8 +70,18 @@ const form = useForm({
 });
 
 
+const userForm = useForm({
+   usersearch:''
+});
+
+
+
 const search =()=>{
     form.get(route('doctor.search'))
+}
+
+const searchUser = ()=>{
+    userForm.get(route('user.search'))
 }
 
 
@@ -74,7 +90,6 @@ const search =()=>{
 
 <template>
 <div>
-
     <div  v-if="role === 'regular'">
         <p class="mt-32 font-bold text-center">You dont have a role waiting for admin to assign you role</p>
 
@@ -124,7 +139,11 @@ const search =()=>{
                         <div>
                             <img class="w-4 h-4" src="/icons/observation.png" alt="" />
                         </div>
-            Lab Technician
+
+
+                        <Link v-if="admin() || lab()" :href="route('lab.index')">
+                            Lab Technician
+                        </Link>
                     </li>
                     <li v-if="admin() || recept()" class="flex items-center gap-y-6 gap-x-2">
                         <div>
@@ -140,16 +159,16 @@ const search =()=>{
                         <div>
                             <img class="w-4 h-4" src="/icons/cashier.png" alt="" />
                         </div>
-                   cashier
+               <Link :href="route('cashier.home')">cashier</Link>
                     </li>
                     <li v-if="admin()" class="flex items-center gap-y-6 gap-x-2">
                         <div><img class="w-4 h-4" src="/icons/user.png" alt="" /></div>
-                    <Link href="#">users</Link>
+                    <Link :href="route('users.index')">users</Link>
                     </li>
 
                     <li  class="flex items-center gap-y-6 gap-x-2">
                         <div><img class="w-6 h-6" src="/icons/logout.png" alt="" /></div>
-                    <Link class="font-bold" href="#">Logout</Link>
+                    <Link class="font-bold" :href="route('logout')" method="post">Logout</Link>
                     </li>
 
 
@@ -197,7 +216,7 @@ const search =()=>{
                     <Link :href="route('dashboard')">Dashboard</Link>
                     <div class="indicator-bar"></div>
                 </li>
-                <li v-if="admin()"  class="secondary-text"><Link href="#">users</Link></li>
+                <li v-if="admin()"  class="secondary-text"><Link :href="route('users.index')">users</Link></li>
                 <li v-if="admin() || recept() || doctor()" class="secondary-text">  <Link :href="route('patients.index')"> Patients</Link>   </li>
                 <li v-if="admin() || doctor()" class="secondary-text"><Link :href="route('diagonoses.index')"> Diagonoses</Link></li>
             </ul>
@@ -208,22 +227,32 @@ const search =()=>{
        calender dropdown -->
         <div class="flex pl-12 m-8 filters-inputs gap-x-8">
             <div
-                class="grid items-center justify-center grid-cols-3 gap-2 pl-4 calender-input"
-            >
-                <div class="flex col-span-2 gap-2">
-                    <img class="w-6 h-6" src="/icons/calendar-lines-pen.png" alt="" />
-                    <div>
-                        <p class="text-xs font-bold text-gray-500">Date</p>
-                        <h4 class="text-xs font-extrabold">Last Year</h4>
-                    </div>
+                class="flex gap-2 pl-2 place-items-center calender-input" >
+                <div>
+                    <img class="w-6 h-6" src="/icons/patient.png" alt="" />
                 </div>
 
+
+            <h1 class="text-sm font-extrabold ">
+        patient: {{patient_count}}
+            </h1>
+
+
+
+                <!-- <div class="flex col-span-2 gap-2">
+                    <img class="w-6 h-6" src="/icons/calendar-lines-pen.png" alt="" />
+                    <div>
+                        <p class="text-xs font-bold text-gray-500">No Patient</p>
+                        <h4 class="text-xs font-extrabold">Last Year</h4>
+                    </div>
+                </div> -->
+<!--
                 <div>
                     <img class="w-4 h-4" src="/icons/angle-small-down.png" alt="" />
-                </div>
+                </div> -->
             </div>
             <!-- workinf on the category -->
-            <div
+            <!-- <div
                 class="grid items-center justify-center grid-cols-3 gap-2 pl-4 calender-input"
             >
                 <div class="flex col-span-2 gap-2">
@@ -237,14 +266,24 @@ const search =()=>{
                 <div>
                     <img class="w-4 h-4" src="/icons/angle-small-down.png" alt="" />
                 </div>
-            </div>
+            </div> -->
+
+
+
+
+            <form   v-if="admin()" @submit.prevent="searchUser()"  method="GET">
+            <input v-model="userForm.usersearch" name="usersearch" class="grid items-center justify-center grid-cols-3 gap-2 pl-4 text-xs calender-input"
+                placeholder="search  user" />
+          </form>
 
             <!-- code for the search button -->
 
             <form   v-if="admin() || doctor()" @submit.prevent="search()"  method="GET">
             <input v-model="form.search" name="search" class="grid items-center justify-center grid-cols-3 gap-2 pl-4 text-xs calender-input"
-                placeholder="search  CTR+K" />
+                placeholder="search  patients" />
           </form>
+
+
         </div>
 
         <div class="grid justify-center grid-cols-1 pl-20">

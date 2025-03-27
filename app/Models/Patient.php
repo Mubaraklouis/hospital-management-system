@@ -16,7 +16,8 @@ class Patient extends Model
         "name",
         "age",
         "phone",
-        "gender"
+        "gender",
+        'patient_id'
     ];
 
     //creating a relationship for patients and diagonoses

@@ -49,7 +49,7 @@ const deleteDiagonose = (id)=>{
                     <p>{{ diagonose.title }}</p>
                 </th>
 
-                <td class="px-6 py-4">{{ diagonose.name }}</td>
+                <td class="px-6 py-4">{{ diagonose.price }}</td>
                 <td  class="px-6 py-4">
                     <div class="flex gap-4">
                         <div class="p-2 font-medium text-white bg-red-400 rounded-md hover:underline">

@@ -1,38 +1,41 @@
-
-<script setup >
-import { Link, usePage ,useForm} from "@inertiajs/vue3";
+<script setup>
+import mainLayout from '@/Layouts/mainLayout/mainLayout.vue';
 import DropdownLink from "@/Components/DropdownLink.vue";
 import Dropdown from '@/Components/Dropdown.vue';
-import doctorLayout from "../../Layouts/doctorLayout.vue";
-import mainLayout from "@/Layouts/mainLayout/mainLayout.vue";
-const props = defineProps({
-    patient:Array,
-    diagonoses:Array
+import { Link, usePage ,useForm} from "@inertiajs/vue3";
+let props =defineProps({
+    roles:Array,
+    user:Object
 })
 
 
 
-
-
 const form = useForm({
-    patient_id:props.patient[0]?.id
+    user_id:props.user[0]?.id
 
 });
 
 
 
-const submitDiagonose = (diagonose_id) => {
 
-    form.post(route('doctor.assign',diagonose_id))
+const submitRole = (role_id) => {
+
+form.post(route('user.assign',role_id))
 }
+
 
 
 </script>
 
 <template>
+    <div>
 <mainLayout>
-    <div v-if="patient.length >0">
-        <div class="grid items-center justify-center grid-cols-3 gap-2 pb-4 cursor-pointer ">
+
+
+<div v-if="user.length > 0">
+
+
+    <div  class="grid items-center justify-center grid-cols-3 gap-2 pb-4 cursor-pointer ">
 
 <!-- Settings Dropdown -->
 <div class="relative ml-1">
@@ -42,7 +45,7 @@ const submitDiagonose = (diagonose_id) => {
             <span class="inline-flex bg-gray-200 rounded-md ">
                 <button type="button"
                     class=" bg-[#6200FF] inline-flex  ms-center px-3 py-2 text-sm font-medium leading-4 text-white transition duration-150 ease-in-out border border-transparent rounded-md ">
-                   Assign Diagonoses
+                   Assign Role
 
                     <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20" fill="currentColor">
@@ -56,8 +59,8 @@ const submitDiagonose = (diagonose_id) => {
         <br>
 
         <template #content>
-            <DropdownLink name="search" @click="submitDiagonose(diagonose.id)" v-for="diagonose in diagonoses" :key="diagonose.id">
-                {{ diagonose.title }}
+            <DropdownLink name="search" @click.prevent="submitRole(role.id)" v-for="role in roles" :key="role.id">
+                {{role.title }}
             </DropdownLink>
 
 
@@ -72,10 +75,8 @@ const submitDiagonose = (diagonose_id) => {
 
 <div class="px-6 py-3">
 <h3 class="text-lg font-bold leading-6 text-gray-900">
-Patient Information
+User Information
 </h3>
-
-<p class="pt-2"><span class="text-bold">ID:</span> <span class="text-sm text-gray-500 text-bold"> {{ patient[0].patient_id }}</span></p>
 <!-- <p class="mt-1 text-sm text-gray-500">
 This is some information about the Patient.
 </p> -->
@@ -91,66 +92,52 @@ This is some information about the Patient.
 Full name
 </dt>
 <dd class="col-span-2 mt-1 text-sm text-gray-900">
-{{ patient[0].name }}
+{{ user[0].name }}
 </dd>
 </div>
 
 <div class="grid grid-cols-3 py-5 sm:gap-4 sm:px-6">
 <dt class="text-sm font-bold text-gray-500">
-Phone number
+Email
 </dt>
 <dd class="col-span-2 mt-0 text-sm text-gray-900 ">
-{{ patient[0].phone }}
+{{ user[0].email }}
 </dd>
 </div>
 <div class="grid grid-cols-3 gap-4 px-6 py-3 sm:py-5">
 <dt class="text-sm font-bold text-gray-500">
-Gender
+Role
 </dt>
-<dd class="col-span-2 mt-1 text-sm text-gray-900">
-{{ patient[0].gender }}
+<dd v-if="user[0].roles[0]" class="col-span-2 mt-1 text-sm text-gray-900">
+<!-- {{ patient[0].gender }} -->
+  {{user[0].roles[0].title}}
 </dd>
-</div>
-<div class="grid grid-cols-3 gap-4 px-6 py-3 sm:py-5">
-<dt class="text-sm font-bold text-gray-500">
-Age
-</dt>
-<dd class="col-span-2 mt-1 text-sm text-gray-900">
-{{ patient[0].age }}
+<dd v-else class="col-span-2 mt-1 text-sm text-gray-900">
+<!-- {{ patient[0].gender }} -->
+Not assign role
 </dd>
-</div>
-<div class="grid grid-cols-3 gap-4 px-6 py-3 sm:py-5">
-<dt class="text-sm font-bold text-gray-500">
-Diagonoses
-</dt>
-<dd class="col-span-2 mt-1 text-sm text-gray-900">
 
-<span class="p-3 font-bold" v-for="diagonose in patient[0].diagonoses" :key="diagonose.key">{{ diagonose.title }},</span>
-
-</dd>
 </div>
+
 </dl>
 </div>
 </div>
 
-    </div>
-    <div class="mt-10" v-else>
-                <p class="font-bold ">Patient Does not exist</p>
+
+</div>
+            <div class="mt-10" v-else>
+                <p class="font-bold ">User Does not exist</p>
 
             </div>
-    <div>
-
-
-
-    </div>
 
 
 </mainLayout>
 
-
+    </div>
 </template>
 
-<style scoped>
+
+<style scope>
 
 .profile-card{
     border: 5px solid #6200FF;
@@ -174,4 +161,5 @@ Diagonoses
 .info-card{
     width:700px;
 }
+
 </style>

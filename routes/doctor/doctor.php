@@ -1,8 +1,4 @@
 <?php
-/*
-* these contains all the routes responsible for doctor's functionality
-*
-*/
 
 use App\Http\Controllers\DiagonoseController;
 use App\Http\Controllers\DoctorController;

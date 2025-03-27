@@ -4,6 +4,11 @@ import { Link, usePage ,useForm} from "@inertiajs/vue3";
 import doctorLayout from "../../Layouts/doctorLayout.vue";
 import mainLayout from "@/Layouts/mainLayout/mainLayout.vue";
 
+
+const page = usePage()
+
+const name = page.props.auth.user.name;
+
 </script>
 
 <template>
@@ -24,8 +29,9 @@ import mainLayout from "@/Layouts/mainLayout/mainLayout.vue";
     </div>
     <div class="flex flex-col items-center pb-10">
         <img class="w-24 h-24 mb-3 rounded-full shadow-lg profile-card"  src="/icons/doctor.png" />
-        <h5 class="mb-1 text-xl font-medium text-gray-900 "> Welcome Mubarak</h5>
-        <span class="text-sm text-gray-500 ">Doctor</span>
+        <h5 class="mb-1 text-xl font-medium text-gray-900 "> Welcome {{name}}</h5>
+        <span class="text-sm text-gray-500 ">{{name
+            }}</span>
         <div class="flex mt-4 md:mt-6">
             <Link href=""   class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-[#6200FF] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">Diagonoses</Link>
             <Link href="/profile" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg ms-2 focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">profile</Link>
