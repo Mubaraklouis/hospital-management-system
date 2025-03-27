@@ -17,7 +17,7 @@ class RolesFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title'=>'admin'
         ];
     }
 }
