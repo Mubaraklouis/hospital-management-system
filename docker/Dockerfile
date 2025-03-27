@@ -37,7 +37,7 @@ RUN apk add --no-cache \
     && rm -rf /var/cache/apk/*
 
 # Configure PHP
-COPY docker/production/php.ini /usr/local/etc/php/conf.d/php.ini
+COPY docker/php.ini /usr/local/etc/php/conf.d/php.ini
 
 # Configure Nginx
 COPY docker/nginx.conf /etc/nginx/nginx.conf
