@@ -41,7 +41,7 @@ jobs:
           image: mubaraklouis/hospitalsystem
           tags: 0.0.1
           registry: docker.io
-          dockerfile: docker/8.4/Dockerfile
+          dockerfile: '../../docker/8.4/Dockerfile'
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
