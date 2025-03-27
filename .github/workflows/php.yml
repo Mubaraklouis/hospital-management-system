@@ -30,7 +30,9 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress npm install
+      run: composer install --prefer-dist --no-progress
+    - name: Install javascript assests
+      run: npm install
 
 
     - uses: mr-smithers-excellent/docker-build-push@v6
