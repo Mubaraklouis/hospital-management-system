@@ -21,11 +21,11 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and push using Docker Compose
+    - name: Build and push Docker image
       uses: docker/build-push-action@v4
       with:
         context: .
-        file: docker-compose.yml
+        file: docker/Dockerfile  # Point to actual Dockerfile
         push: true
         tags: mubaraklouis/hospitalsystem:0.0.1
         build-args: |
