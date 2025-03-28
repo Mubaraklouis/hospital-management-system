@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hospital-mis-depl
+spec:
+  selector:
+    matchLabels:
+      app: hospital-mis-depl
+  template:
+    metadata:
+      labels:
+        app: hospital-mis-depl
+    spec:
+      containers:
+      - name: hospital-mis-depl
+        image: mubaraklouis/hospitalsystem:0.0.1
+        env:
+        - name: DB_HOST
+          value: "mysql-service"  # Matches the MySQL service name
+        - name: DB_PORT
+          value: "3306"
+        - name: DB_DATABASE
+          value: "hospital_db"
+        - name: DB_USERNAME
+          value: "hospital_user"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: user-password
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
