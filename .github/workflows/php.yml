@@ -25,7 +25,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: .
-        file: docker/Dockerfile  # Point to actual Dockerfile
+        file: docker/8.4/Dockerfile # Point to actual Dockerfile
         push: true
         tags: mubaraklouis/hospitalsystem:0.0.1
         build-args: |
