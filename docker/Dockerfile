@@ -1,61 +1,38 @@
-# ==============================
-# 1️⃣ Backend Stage - Install PHP & Laravel
-# ==============================
-FROM php:8.3 AS backend
+FROM php:8.3-alpine
 
 # Install system dependencies
-RUN apt-get update -y && \
-    apt-get install -y \
-    openssl \
-    zip \
-    unzip \
-    git \
+RUN apk add --no-cache \
     curl \
-    libpq-dev \
-    ca-certificates \
-    gnupg \
-    && rm -rf /var/lib/apt/lists/*
+    git \
+    unzip \
+    postgresql-dev \
+    nodejs \
+    npm \
+    # Required for some npm packages
+    python3 \
+    make \
+    g++
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo pdo_pgsql bcmath intl zip
+RUN docker-php-ext-install pdo pdo_pgsql mbstring
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /app
-COPY composer.json composer.lock ./
 
-# Set permissions before installing
-RUN chmod -R 777 /app/storage /app/bootstrap/cache
-
-# Install Laravel dependencies
-RUN composer clear-cache && php -d memory_limit=-1 /usr/local/bin/composer install --no-interaction --optimize-autoloader
-
-# Copy Laravel app files
+# Copy application files
 COPY . .
-RUN php artisan ziggy:generate  # Generate Ziggy routes
 
-# ==============================
-# 2️⃣ Frontend Stage - Build Vue App
-# ==============================
-FROM node:18 AS frontend
+# Install PHP dependencies
+RUN composer install --no-interaction --optimize-autoloader
 
-WORKDIR /app
-COPY --from=backend /app . 
-RUN npm install && npm run build  # Build Vue frontend
+# Install Node.js dependencies and build assets
+RUN npm install && npm run build
 
-# ==============================
-# 3️⃣ Final Stage - Serve Laravel
-# ==============================
-FROM php:8.3
+# Configure PHP for production
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-WORKDIR /app
-COPY --from=backend /app .
-COPY --from=frontend /app/public/js public/js
-
-# Expose port
 EXPOSE 8000
-
-# Start Laravel backend
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
