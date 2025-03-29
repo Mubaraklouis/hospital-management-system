@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: hospital-mis-depl
-        image: mubaraklouis/hospitalsystem:0.0.1
+        image: mubaraklouis/hospitalsystem:0.0.2
         env:
         - name: DB_HOST
           value: "mysql-service"  # Matches the MySQL service name
