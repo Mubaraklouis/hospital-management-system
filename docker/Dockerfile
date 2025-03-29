@@ -17,7 +17,7 @@ RUN apt-get update -y && \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo pdo_pgsql
+RUN docker-php-ext-install pdo pdo_pgsql bcmath intl zip
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
@@ -25,11 +25,16 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 
 WORKDIR /app
 COPY composer.json composer.lock ./
-RUN composer install --no-interaction --optimize-autoloader
 
-# Copy Laravel app files (exclude frontend for now)
+# Set permissions before installing
+RUN chmod -R 777 /app/storage /app/bootstrap/cache
+
+# Install Laravel dependencies
+RUN composer clear-cache && php -d memory_limit=-1 /usr/local/bin/composer install --no-interaction --optimize-autoloader
+
+# Copy Laravel app files
 COPY . .
-RUN php artisan ziggy:generate  # Generate Ziggy routes for Vue
+RUN php artisan ziggy:generate  # Generate Ziggy routes
 
 # ==============================
 # 2️⃣ Frontend Stage - Build Vue App
@@ -37,8 +42,8 @@ RUN php artisan ziggy:generate  # Generate Ziggy routes for Vue
 FROM node:18 AS frontend
 
 WORKDIR /app
-COPY --from=backend /app .
-RUN npm install && npm run build 
+COPY --from=backend /app . 
+RUN npm install && npm run build  # Build Vue frontend
 
 # ==============================
 # 3️⃣ Final Stage - Serve Laravel
