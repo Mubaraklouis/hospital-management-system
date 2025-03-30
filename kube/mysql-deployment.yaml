@@ -4,21 +4,31 @@ metadata:
   name: mysql-secret
 type: Opaque
 data:
-  MYSQL_ROOT_PASSWORD: cGFzc3dvcmQ=  # password (base64 encoded)
-  MYSQL_PASSWORD: cGFzc3dvcmQ=       # password (base64 encoded)
-  MYSQL_USER: aG9zcGl0YWw=           # hospital (base64 encoded)
+  mysql-root-password: cGFzc3dvcmQ=  # Base64 for 'password'
+  mysql-user-password: cGFzc3dvcmQ=  # Base64 for 'password'
 ---
 apiVersion: v1
-kind: Service
+kind: ConfigMap
 metadata:
-  name: mysql-service
+  name: mysql-initdb-config
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS hospital_db;
+    CREATE USER IF NOT EXISTS 'mubarak'@'%' IDENTIFIED BY 'password';
+    GRANT ALL PRIVILEGES ON hospital_db.* TO 'mubarak'@'%';
+    FLUSH PRIVILEGES;
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
 spec:
-  selector:
-    app: mysql
-  ports:
-    - protocol: TCP
-      port: 3306
-      targetPort: 3306
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -29,51 +39,57 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
-  storageClassName: standard
+      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-deployment
+  name: mysql
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: mysql
     spec:
       containers:
-      - name: mysql
-        image: mysql:8.0
-        env:
-        - name: MYSQL_DATABASE
-          value: "hospital_db"
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: MYSQL_USER
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: MYSQL_PASSWORD
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: MYSQL_ROOT_PASSWORD
-        ports:
-        - containerPort: 3306
-        volumeMounts:
-        - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
+        - name: mysql
+          image: mysql:5.7
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-root-password
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql
+            - name: mysql-initdb
+              mountPath: /docker-entrypoint-initdb.d
       volumes:
-      - name: mysql-persistent-storage
-        persistentVolumeClaim:
-          claimName: mysql-pvc
-      securityContext:
-        runAsUser: 1000
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+        - name: mysql-initdb
+          configMap:
+            name: mysql-initdb-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  type: NodePort
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30036  # NodePort range is 30000-32767
+  selector:
+    app: mysql
