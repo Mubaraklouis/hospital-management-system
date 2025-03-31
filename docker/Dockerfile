@@ -22,16 +22,34 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /app
-COPY . .
 
-# Add this line to copy your .env file
-COPY .env /app/.env
+# Copy files in stages for better caching
+COPY composer.json composer.lock ./
+RUN composer install --no-interaction --no-dev --optimize-autoloader
 
-# Install PHP dependencies
-RUN composer install --no-interaction --optimize-autoloader
-
-# Install Node.js dependencies and build assets
+COPY package.json package-lock.json ./
 RUN npm install && npm run build
 
+# Copy remaining files (except what's in .dockerignore)
+COPY . .
+
+# Create the entrypoint script
+RUN echo '#!/bin/sh\n\
+if [ ! -f .env ]; then\n\
+    cp .env.example .env\n\
+fi\n\
+php artisan key:generate\n\
+php artisan storage:link\n\
+php artisan optimize:clear\n\
+php artisan optimize\n\
+exec "$@"' > /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/entrypoint.sh
+
+# Set up storage permissions
+RUN chown -R www-data:www-data storage bootstrap/cache && \
+    chmod -R 775 storage bootstrap/cache
+
 EXPOSE 8000
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
