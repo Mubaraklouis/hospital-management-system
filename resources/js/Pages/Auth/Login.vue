@@ -83,6 +83,8 @@ const submit = () => {
                     Forgot your password?
                 </Link>
 
+                <h1 class="text-green-500">Goodnight grest achievement version 0.2.0</h1>
+
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Log in
                 </PrimaryButton>

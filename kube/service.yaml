@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: hospital-mis-depl
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: hospital-mis-depl
   ports:

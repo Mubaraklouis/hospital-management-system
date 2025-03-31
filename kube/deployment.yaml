@@ -13,62 +13,62 @@ spec:
     spec:
       containers:
       - name: hospital-mis-depl
-        image: mubaraklouis/hospitalsystem:0.0.8
+        image: mubaraklouis/hospitalsystem:0.1.0
         ports:
         - containerPort: 8000
-        env:
-        - name: APP_KEY
-          value: "base64:D4DkBbRFOMPQv3aE6oCo9LFewDntaUt3DoJLaLx7N2U="
-        - name: DB_CONNECTION
-          value: "mysql"
-        - name: DB_HOST
-          value: "hospitaldb.cjeqoo2ks4c8.eu-north-1.rds.amazonaws.com"
-        - name: DB_PORT
-          value: "3306"
-        - name: DB_DATABASE
-          value: "hospital_db"
-        - name: DB_USERNAME
-          value: "admin"
-        - name: DB_PASSWORD
-          value: "kuallouisdau"
-             # Session & Cache
-        - name: SESSION_DRIVER
-          value: "database"
-        - name: SESSION_LIFETIME
-          value: "120"
-        - name: CACHE_STORE
-          value: "database"
+        # env:
+        # - name: APP_KEY
+        #   value: "base64:D4DkBbRFOMPQv3aE6oCo9LFewDntaUt3DoJLaLx7N2U="
+        # - name: DB_CONNECTION
+        #   value: "mysql"
+        # - name: DB_HOST
+        #   value: "hospitaldb.cjeqoo2ks4c8.eu-north-1.rds.amazonaws.com"
+        # - name: DB_PORT
+        #   value: "3306"
+        # - name: DB_DATABASE
+        #   value: "hospital_db"
+        # - name: DB_USERNAME
+        #   value: "admin"
+        # - name: DB_PASSWORD
+        #   value: "kuallouisdau"
+        #      # Session & Cache
+        # - name: SESSION_DRIVER
+        #   value: "database"
+        # - name: SESSION_LIFETIME
+        #   value: "120"
+        # - name: CACHE_STORE
+        #   value: "database"
 
-        # Mail Configuration
-        - name: MAIL_MAILER
-          value: "log"
-        - name: MAIL_HOST
-          value: "127.0.0.1"
-        - name: MAIL_PORT
-          value: "2525"
-        - name: MAIL_USERNAME
-          value: "null"
-        - name: MAIL_PASSWORD
-          value: "null"
-        - name: MAIL_ENCRYPTION
-          value: "null"
-        - name: MAIL_FROM_ADDRESS
-          value: "hello@example.com"
-        - name: MAIL_FROM_NAME
-          value: "Laravel"
+        # # Mail Configuration
+        # - name: MAIL_MAILER
+        #   value: "log"
+        # - name: MAIL_HOST
+        #   value: "127.0.0.1"
+        # - name: MAIL_PORT
+        #   value: "2525"
+        # - name: MAIL_USERNAME
+        #   value: "null"
+        # - name: MAIL_PASSWORD
+        #   value: "null"
+        # - name: MAIL_ENCRYPTION
+        #   value: "null"
+        # - name: MAIL_FROM_ADDRESS
+        #   value: "hello@example.com"
+        # - name: MAIL_FROM_NAME
+        #   value: "Laravel"
 
-        # AWS Configuration (empty values)
-        - name: AWS_ACCESS_KEY_ID
-          value: ""
-        - name: AWS_SECRET_ACCESS_KEY
-          value: ""
-        - name: AWS_DEFAULT_REGION
-          value: "us-east-1"
-        - name: AWS_BUCKET
-          value: ""
-        - name: AWS_USE_PATH_STYLE_ENDPOINT
-          value: "false"
+        # # AWS Configuration (empty values)
+        # - name: AWS_ACCESS_KEY_ID
+        #   value: ""
+        # - name: AWS_SECRET_ACCESS_KEY
+        #   value: ""
+        # - name: AWS_DEFAULT_REGION
+        #   value: "us-east-1"
+        # - name: AWS_BUCKET
+        #   value: ""
+        # - name: AWS_USE_PATH_STYLE_ENDPOINT
+        #   value: "false"
 
-        # Frontend Configuration
-        - name: VITE_APP_NAME
-          value: "Laravel"
+        # # Frontend Configuration
+        # - name: VITE_APP_NAME
+        #   value: "Laravel"
