@@ -1,4 +1,3 @@
-
 FROM php:8.3-alpine
 
 # Install system dependencies
@@ -23,8 +22,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /app
-COPY .env .
 COPY . .
+
+# Add this line to copy your .env file
+COPY .env /app/.env
 
 # Install PHP dependencies
 RUN composer install --no-interaction --optimize-autoloader
