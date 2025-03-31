@@ -31,7 +31,7 @@ RUN composer install --no-interaction --optimize-autoloader
 RUN npm install && npm run build
 
 # Add entrypoint script and set permissions
-COPY entrypoint.sh /usr/local/bin/
+COPY docker/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Run setup commands during build
