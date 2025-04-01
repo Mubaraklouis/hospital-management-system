@@ -207,8 +207,7 @@ npm run test:coverage
 </p>
 
 <ul>
-  <li><strong>GitHub Issues</strong>: <a href="https://github.com/your-username/hospital-management-system/issues" target="_blank">Report Bugs/F<img width="1920" alt="Screen Shot 2025-04-01 at 1 32 16 PM" src="https://github.com/user-attachments/assets/e0edf99a-cb3e-4add-8901-62c1bc87eefd" />
-eatures</a></li>
+  <li><strong>GitHub Issues</strong>: <a href="https://github.com/your-username/hospital-management-system/issues" target="_blank">Report Bugs</a>
   <li><strong>Live Support</strong>: <a href="https://hospital-system.example.com/support" target="_blank">Chat Support</a></li>
 </ul>
 
@@ -216,6 +215,9 @@ eatures</a></li>
 
 <h2>Screenshots</h2>
 <p align="center">
+    
+<img width="1920" alt="Screen Shot 2025-04-01 at 1 31 11 PM" src="https://github.com/user-attachments/assets/04185e12-eb2b-4172-97bb-cff46d13f2f3" />
+
 
 <img width="1920" alt="Screen Shot 2025-04-01 at 1 30 35 PM" src="https://github.com/user-attachments/assets/d345e108-32ad-453b-aabc-527b80e677c0" />
 
