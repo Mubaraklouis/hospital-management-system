@@ -216,7 +216,8 @@ eatures</a></li>
 
 <h2>Screenshots</h2>
 <p align="center">
-  <a href="https://hospital-system.example.com" target="_blank">
-    <img src="screenshots/dashboard.jpg" alt="Live Preview" width="800">
-  </a>
+
+<img width="1920" alt="Screen Shot 2025-04-01 at 1 30 35 PM" src="https://github.com/user-attachments/assets/d345e108-32ad-453b-aabc-527b80e677c0" />
+
+
 </p>
