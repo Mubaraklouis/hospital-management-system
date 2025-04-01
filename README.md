@@ -9,7 +9,11 @@
 <p align="center">
   A modern <strong>Hospital Management System</strong> built with <strong>Inertia.js, Vue.js, Laravel, and TypeScript</strong>. This system streamlines hospital operations including patient management, appointments, role-based access control, and financial management. Deployed with Kubernetes and AWS EKS for enterprise-grade scalability.
 </p>
-
+<p align="center">
+  <a href="https://hospital.yourdomain.com" target="_blank">
+    <img src="https://img.shields.io/badge/%F0%9F%8F%A5-Live_Production_System-success?style=for-the-badge&logo=google-chrome" alt="Live System">
+  </a>
+</p>
 ---
 
 <h2>Features</h2>
