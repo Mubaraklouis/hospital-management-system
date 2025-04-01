@@ -205,3 +205,18 @@ npm run test:coverage
   Email: mubaraklouis@gmail.com<br>
   Incident Response: #support-channel in Slack
 </p>
+
+<ul>
+  <li><strong>GitHub Issues</strong>: <a href="https://github.com/your-username/hospital-management-system/issues" target="_blank">Report Bugs/F<img width="1920" alt="Screen Shot 2025-04-01 at 1 32 16 PM" src="https://github.com/user-attachments/assets/e0edf99a-cb3e-4add-8901-62c1bc87eefd" />
+eatures</a></li>
+  <li><strong>Live Support</strong>: <a href="https://hospital-system.example.com/support" target="_blank">Chat Support</a></li>
+</ul>
+
+---
+
+<h2>Screenshots</h2>
+<p align="center">
+  <a href="https://hospital-system.example.com" target="_blank">
+    <img src="screenshots/dashboard.jpg" alt="Live Preview" width="800">
+  </a>
+</p>
