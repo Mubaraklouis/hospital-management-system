@@ -7,152 +7,223 @@
 </p>
 
 <p align="center">
-  A modern <strong>Hospital Management System</strong> built with <strong>Inertia.js, Vue.js, Laravel, and TypeScript</strong>. This system is designed to streamline hospital operations, including patient management, appointment scheduling, role-based access control, and financial management with receipt generation. It also includes advanced features like charts and matrix data visualization for better decision-making.
+  A modern <strong>Hospital Management System</strong> built with <strong>Inertia.js, Vue.js, Laravel, and TypeScript</strong>. This system streamlines hospital operations including patient management, appointments, role-based access control, and financial management. Deployed with Kubernetes and AWS EKS for enterprise-grade scalability.
 </p>
-
+<p align="center">
+  <a href="http://13.61.182.166" target="_blank">
+    <img src="https://img.shields.io/badge/%F0%9F%8F%A5-Live_Production_System-success?style=for-the-badge&logo=google-chrome" alt="Live System">
+  </a>
+</p>
 ---
 
 <h2>Features</h2>
 
 <h3>Core Features</h3>
 <ul>
-  <li><strong>Patient Management</strong>: Add, update, and manage patient records with ease.</li>
-  <li><strong>Appointment Scheduling</strong>: Schedule, reschedule, and track patient appointments.</li>
-  <li><strong>Role-Based Access Control</strong>: Secure access for admins, doctors, nurses, and staff with granular permissions.</li>
-  <li><strong>Receipt Management</strong>: Generate and manage receipts for patient payments.</li>
-  <li><strong>Charts and Data Visualization</strong>: Interactive charts and matrix data for insights into hospital operations.</li>
-  <li><strong>Inventory Management</strong>: Track and manage hospital inventory (e.g., medicines, equipment).</li>
-  <li><strong>Reporting</strong>: Generate detailed reports for patients, appointments, and financials.</li>
+  <li><strong>Patient Management</strong>: Complete patient record management</li>
+  <li><strong>Appointment Scheduling</strong>: Intelligent scheduling system</li>
+  <li><strong>Role-Based Access</strong>: Multi-level user permissions</li>
+  <li><strong>Financial System</strong>: Payments and receipt generation</li>
+  <li><strong>Data Visualization</strong>: Interactive charts and reports</li>
 </ul>
 
 <h3>Advanced Features</h3>
 <ul>
-  <li><strong>Dockerized Deployment</strong>: Easy setup and deployment using Docker.</li>
-  <li><strong>Responsive UI</strong>: Fully responsive design for seamless use on all devices.</li>
-  <li><strong>TypeScript Support</strong>: Robust type-checking for better code quality and maintainability.</li>
-  <li><strong>API Integration</strong>: RESTful APIs for seamless integration with third-party systems.</li>
-  <li><strong>Audit Logs</strong>: Track all changes and actions for accountability.</li>
+  <li><strong>Kubernetes Orchestration</strong>: Production-grade container management</li>
+  <li><strong>API Gateway</strong>: Nginx-based request routing</li>
+  <li><strong>Multi-Environment Setup</strong>: Local development and cloud production</li>
+  <li><strong>Auto-Scaling</strong>: Horizontal pod scaling in EKS</li>
 </ul>
 
 ---
 
 <h2>Technologies Used</h2>
 <ul>
-  <li><strong>Frontend</strong>: Vue.js, Inertia.js, TypeScript, Tailwind CSS</li>
-  <li><strong>Backend</strong>: Laravel, PHP</li>
-  <li><strong>Database</strong>: MySQL</li>
-  <li><strong>Charts</strong>: Chart.js</li>
-  <li><strong>Containerization</strong>: Docker</li>
-  <li><strong>Deployment</strong>: AWS EC2</li>
-  <li><strong>Version Control</strong>: Git</li>
+  <li><strong>Frontend</strong>: Vue 3, Inertia.js, TypeScript, Tailwind</li>
+  <li><strong>Backend</strong>: Laravel 10, PHP 8.2</li>
+  <li><strong>Database</strong>: MySQL 8, Redis</li>
+  <li><strong>Infrastructure</strong>: Docker, Kubernetes, AWS EKS</li>
+  <li><strong>Networking</strong>: Nginx Ingress, Load Balancer</li>
+  <li><strong>Monitoring</strong>: Prometheus, Grafana</li>
 </ul>
 
 ---
 
 <h2>Installation</h2>
 
-<h3>Prerequisites</h3>
-<ul>
-  <li>Docker and Docker Compose installed.</li>
-  <li>Node.js and Composer installed (for local development).</li>
-</ul>
-
-<h3>Steps</h3>
+<h3>Local Development (Laravel Sail)</h3>
 <ol>
-  <li>Clone the repository:
-    <pre><code>git clone https://github.com/your-username/hospital-management-system.git
-cd hospital-management-system</code></pre>
-  </li>
-  <li>Set up environment variables:
-    <ul>
-      <li>Copy <code>.env.example</code> to <code>.env</code> and update the database credentials and other settings.</li>
-    </ul>
-  </li>
-  <li>Build and run the Docker containers:
-    <pre><code>docker-compose up -d</code></pre>
+  <li>Clone repository:
+    <pre>git clone https://github.com/your-org/hospital-management.git
+cd hospital-management</pre>
   </li>
   <li>Install dependencies:
-    <pre><code>docker-compose exec app composer install
-docker-compose exec app npm install</code></pre>
+    <pre>composer install
+npm install</pre>
   </li>
-  <li>Run migrations and seed the database:
-    <pre><code>docker-compose exec app php artisan migrate --seed</code></pre>
+  <li>Configure environment:
+    <pre>cp .env.example .env
+./vendor/bin/sail up -d</pre>
   </li>
-  <li>Compile frontend assets:
-    <pre><code>docker-compose exec app npm run dev</code></pre>
+  <li>Run migrations:
+    <pre>./vendor/bin/sail artisan migrate --seed</pre>
   </li>
-  <li>Access the application:
-    <ul>
-      <li>Open <a href="http://localhost:8000" target="_blank">http://localhost:8000</a> in your browser.</li>
-    </ul>
+  <li>Start development server:
+    <pre>./vendor/bin/sail npm run dev</pre>
   </li>
 </ol>
 
+<h3>Docker Compose Setup</h3>
+<pre>
+docker-compose up -d --build
+docker-compose exec app composer install
+docker-compose exec app npm install && npm run build
+docker-compose exec app php artisan migrate --seed
+</pre>
+
 ---
 
-<h2>Deployment</h2>
-<p>
-  The system is deployed on <strong>AWS EC2</strong> using <strong>Docker</strong> for containerization. Here’s how it’s set up:
-</p>
+<h2>Production Deployment</h2>
+
+<h3>AWS EKS Cluster Setup</h3>
+<ol>
+  <li>Create EKS cluster:
+    <pre>eksctl create cluster \
+--name hospital-prod \
+--version 1.27 \
+--region us-west-2 \
+--nodegroup-name workers \
+--node-type t3.medium \
+--nodes 3</pre>
+  </li>
+  
+  <li>Deploy NGINX Ingress:
+    <pre>helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install ingress-nginx ingress-nginx/ingress-nginx</pre>
+  </li>
+</ol>
+
+<h3>Kubernetes Manifests</h3>
+<p>Deployment manifests located in <code>deploy/kubernetes/</code>:</p>
 <ul>
-  <li><strong>Dockerized Setup</strong>: The application runs in Docker containers for consistency across environments.</li>
-  <li><strong>AWS EC2</strong>: The system is hosted on an EC2 instance for scalability and reliability.</li>
-  <li><strong>CI/CD</strong>: Automated deployment pipeline using GitHub Actions or AWS CodeDeploy (optional).</li>
+  <li><code>app-deployment.yaml</code> - Laravel application</li>
+  <li><code>web-deployment.yaml</code> - Frontend assets</li>
+  <li><code>mysql-statefulset.yaml</code> - Database</li>
+  <li><code>ingress.yaml</code> - Routing rules</li>
+</ul>
+
+<pre>
+kubectl apply -f deploy/kubernetes/
+</pre>
+
+<h3>CI/CD Pipeline</h3>
+<p>Sample GitHub Actions workflow (<code>.github/workflows/deploy.yml</code>):</p>
+<pre>
+name: Deploy to EKS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Deploy to EKS
+        run: |
+          aws eks update-kubeconfig --name hospital-prod
+          kubectl apply -f deploy/kubernetes/
+</pre>
+
+---
+
+<h2>Architecture</h2>
+<p align="center">
+  <img src="docs/architecture.png" alt="System Architecture" width="600">
+</p>
+
+<h3>Key Components</h3>
+<ul>
+  <li><strong>API Gateway</strong>: Nginx ingress controller</li>
+  <li><strong>Application Layer</strong>: Laravel microservices</li>
+  <li><strong>Data Layer</strong>: MySQL cluster with Redis caching</li>
+  <li><strong>Monitoring</strong>: Prometheus metrics collection</li>
+  <li><strong>Auto-Scaling</strong>: Cluster auto-scaler for EKS nodes</li>
 </ul>
 
 ---
 
-<h2>Versioning</h2>
-<p>
-  This is <strong>Version 1.0.0</strong> of the Hospital Management System, released on <strong>October 2023</strong>.
-</p>
+<h2>Development Guidelines</h2>
+
+<h3>Branch Strategy</h3>
+<ul>
+  <li><code>main</code> - Production releases</li>
+  <li><code>develop</code> - Integration branch</li>
+  <li><code>feature/*</code> - New features</li>
+  <li><code>hotfix/*</code> - Critical fixes</li>
+</ul>
+
+<h3>Testing</h3>
+<pre>
+# Run PHP tests
+./vendor/bin/sail test
+
+# Run Frontend tests
+npm run test
+
+# Generate coverage report
+npm run test:coverage
+</pre>
 
 ---
 
-<h2>License</h2>
-<p>
-  This project is licensed under the <strong>MIT License</strong>. See the <a href="LICENSE" target="_blank">LICENSE</a> file for details.
-</p>
+<h2>Monitoring & Logging</h2>
+<ul>
+  <li>Prometheus metrics endpoint: <code>/metrics</code></li>
+  <li>Grafana dashboard: <code>http://monitoring.example.com</code></li>
+  <li>Centralized logs with ELK Stack</li>
+  <li>Application logs: <code>storage/logs/laravel.log</code></li>
+</ul>
 
 ---
 
 <h2>Contributing</h2>
-<p>
-  Contributions are welcome! Please follow these steps:
-</p>
-<ol>
-  <li>Fork the repository.</li>
-  <li>Create a new branch (<code>git checkout -b feature/YourFeatureName</code>).</li>
-  <li>Commit your changes (<code>git commit -m 'Add some feature'</code>).</li>
-  <li>Push to the branch (<code>git push origin feature/YourFeatureName</code>).</li>
-  <li>Open a pull request.</li>
-</ol>
+<p>See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> for detailed guidelines.</p>
 
----
+<h2>License</h2>
+<p>MIT License - See <a href="LICENSE">LICENSE</a></p>
 
 <h2>Contact</h2>
 <p>
-  For any questions or feedback, feel free to reach out:
+  Maintainer: Mubarak Louis<br>
+  Email: mubaraklouis@gmail.com<br>
+  Incident Response: #support-channel in Slack
 </p>
+
 <ul>
-  <li><strong>📧 Email</strong>: <a href="mailto:your-email@example.com" target="_blank">your-email@example.com</a></li>
-  <li><strong>🐦 X (Twitter)</strong>: <a href="https://twitter.com/your-x-handle" target="_blank">@your-x-handle</a></li>
-  <li><strong>🔗 LinkedIn</strong>: <a href="https://linkedin.com/in/your-linkedin" target="_blank">linkedin.com/in/your-linkedin</a></li>
-  <li><strong>📸 Instagram</strong>: <a href="https://instagram.com/your-instagram" target="_blank">@your-instagram</a></li>
-  <li><strong>🌐 Portfolio</strong>: <a href="https://your-portfolio.com" target="_blank">your-portfolio.com</a></li>
+  <li><strong>GitHub Issues</strong>: <a href="https://github.com/your-username/hospital-management-system/issues" target="_blank">Report Bugs</a>
+  <li><strong>Live Support</strong>: <a href="https://hospital-system.example.com/support" target="_blank">Chat Support</a></li>
 </ul>
 
 ---
 
 <h2>Screenshots</h2>
-<p>
-  <img src="/screenshots/patient-management.png" alt="Patient Management" width="300">
-  <img src="/screenshots/appointment-scheduling.png" alt="Appointment Scheduling" width="300">
-  <img src="/screenshots/charts-reports.png" alt="Charts and Reports" width="300">
-</p>
-
----
-
 <p align="center">
-  Thank you for using the Hospital Management System! 🏥
+    
+<img width="1920" alt="Screen Shot 2025-04-01 at 1 31 11 PM" src="https://github.com/user-attachments/assets/04185e12-eb2b-4172-97bb-cff46d13f2f3" />
+
+
+<img width="1920" alt="Screen Shot 2025-04-01 at 1 30 35 PM" src="https://github.com/user-attachments/assets/d345e108-32ad-453b-aabc-527b80e677c0" />
+
+
 </p>
