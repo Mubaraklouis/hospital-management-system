@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
   <img src="https://img.shields.io/badge/status-production-green" alt="Status">
-  <img src="https://img.shields.io/badge/license-MIT-orange" alt="License">
+  <img src="https://img.shields.io/badge/license-All%20rights%20reserved-red" alt="License">
 </p>
 
 <p align="center">
@@ -197,11 +197,11 @@ npm run test:coverage
 
 ---
 
-<h2>Contributing</h2>
-<p>See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> for detailed guidelines.</p>
 
 <h2>License</h2>
-<p>MIT License - See <a href="LICENSE">LICENSE</a></p>
+<p>
+  Copyright (c) 2026 Mobarak Kuol Louis Dau. All rights reserved. This code is published for portfolio and evaluation purposes only. No permission is granted to use, copy, modify or distribute it without prior written permission. See the LICENSE file. For licensing enquiries: mubaraklouis@gmail.com
+</p>
 
 <h2>Contact</h2>
 <p>
