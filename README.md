@@ -76,7 +76,7 @@ docker-compose exec app php artisan migrate --seed
 <h2>Kubernetes</h2>
 <p>The <code>kube/</code> folder holds the manifests and scripts I used to run the app on a self-managed Kubernetes cluster built with kubeadm:</p>
 <ul>
-  <li><code>deployment.yaml</code> and <code>service.yaml</code>: the Laravel application (image <code>mubaraklouis/hospitalsystem</code>)</li>
+  <li><code>deployment.yaml</code> and <code>service.yaml</code>: the Laravel application. The image is not published to a public registry: build it from <code>docker/Dockerfile</code>, push it to your own registry and set it in <code>deployment.yaml</code></li>
   <li><code>mysql-deployment.yaml</code>: MySQL with a persistent volume. The password in it is a development placeholder; use your own Secret in any real environment.</li>
   <li><code>kubeadm.sh</code>: node setup (Docker, kubelet, kubeadm, kubectl)</li>
 </ul>
